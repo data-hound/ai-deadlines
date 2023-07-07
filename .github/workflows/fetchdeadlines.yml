@@ -1,0 +1,22 @@
+name: Fetch Deadlines
+on:
+  schedule: # Run workflow automatically
+    - cron: '* * 1 * *' # Runs every hour, on the hour
+  workflow_dispatch: # Run workflow manually (without waiting for the cron to be called), through the GitHub Actions Workflow page directly
+permissions:
+  contents: write # To write the generated contents to the readme
+  
+# Resources: https://github.com/gautamkrishnar/blog-post-workflow/tree/master
+# https://dev.to/stevenjdh/show-your-tweets-on-your-github-profile-readme-141i
+  
+jobs:
+  update-yaml-with-deadline:
+    name: Update this repo's data.yml with latest deadlines of relevant conferences
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Pull in dev.to posts
+        uses: gautamkrishnar/blog-post-workflow@v1
+        with:
+          site_list: "https://iclr.cc/Conferences/2024, https://nips.cc/Conferences/2023"
